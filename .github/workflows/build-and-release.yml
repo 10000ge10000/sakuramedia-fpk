@@ -1,0 +1,91 @@
+name: Build and Release SakuraMedia FPK
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: '发布版本号 (留空则默认读取 manifest)'
+        required: false
+        default: ''
+      release_title:
+        description: 'Release 标题'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sakuramedia-fpk-release
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Verify and Unit Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run Static Checks and Unit Tests
+        run: bash verify.sh
+
+  release:
+    name: Build FPK and Publish Release
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Resolve Version and Tag
+        id: resolve
+        run: |
+          manifest_ver="$(awk -F= '$1=="version" {print $2}' manifest)"
+          if [ -n "${{ inputs.version }}" ]; then ver="${{ inputs.version }}"; else ver="$manifest_ver"; fi
+          tag_name="${GITHUB_REF_NAME:-}"
+          if [ -z "$tag_name" ] || [ "$tag_name" = "${{ github.ref }}" ]; then tag_name="v$ver"; fi
+          echo "version=$ver" >> "$GITHUB_OUTPUT"
+          echo "tag_name=$tag_name" >> "$GITHUB_OUTPUT"
+          echo "fpk_file=sakuramedia-$ver.fpk" >> "$GITHUB_OUTPUT"
+          echo "resolved: ver=$ver tag=$tag_name"
+
+      - name: Build FPK
+        run: |
+          bash build.sh
+          ls -la dist/
+          test -f "dist/sakuramedia-${{ steps.resolve.outputs.version }}.fpk"
+
+      - name: Create GitHub Release and Upload FPK
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.resolve.outputs.tag_name }}
+          name: ${{ inputs.release_title || format('SakuraMedia FPK {0}', steps.resolve.outputs.version) }}
+          files: |
+            dist/sakuramedia-${{ steps.resolve.outputs.version }}.fpk
+            dist/sakuramedia-${{ steps.resolve.outputs.version }}.fpk.sha256
+          body: |
+            SakuraMedia 飞牛 fnOS 第三方安装包 ${{ steps.resolve.outputs.version }}
+
+            - 同步官方前端/后端镜像版本见 [CHANGELOG](https://github.com/${{ github.repository }}/blob/main/CHANGELOG.md)
+            - 安装说明见 [README](https://github.com/${{ github.repository }}#readme)
+            - FnDepot 源地址：https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/fnpack.json
+
+      - name: Generate FnDepot Appstore Files
+        run: |
+          python3 scripts/generate-appstore.py \
+            --version "${{ steps.resolve.outputs.version }}" \
+            --tag "${{ steps.resolve.outputs.tag_name }}" \
+            --fpk "${{ steps.resolve.outputs.fpk_file }}" \
+            --out-dir public
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public

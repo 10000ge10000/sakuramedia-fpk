@@ -1,0 +1,39 @@
+#!/bin/bash
+set -euo pipefail
+# shellcheck source=runtime.sh
+. "$(dirname "$0")/runtime.sh"
+
+fail() { write_user_error "$1"; exit 1; }
+command -v docker >/dev/null 2>&1 || fail "未安装 Docker，请先在 fnOS 应用中心安装并启动 Docker。"
+docker info >/dev/null 2>&1 || fail "Docker 服务未运行，请先启动 Docker。"
+docker compose version >/dev/null 2>&1 || fail "Docker Compose 无法执行，请检查 Docker 安装。"
+case "${TRIM_SYS_ARCH:-$(uname -m)}" in
+  x86|x86_64|amd64|aarch64|arm64) ;;
+  *) fail "不支持的 CPU 架构：${TRIM_SYS_ARCH:-$(uname -m)}" ;;
+esac
+case "${COMPOSE_PROFILES:-${wizard_deploy_mode:-}}" in light|full) ;; *) fail "请选择轻量模式或完整模式。" ;; esac
+[ -n "${wizard_media_parent:-}" ] || fail "必须填写媒体父目录。"
+[ "${wizard_media_parent#/}" != "$wizard_media_parent" ] || fail "媒体父目录必须是绝对路径。"
+[ -d "$wizard_media_parent" ] || fail "媒体父目录不存在：$wizard_media_parent"
+if [ -n "${wizard_data_mode:-}" ]; then
+  case "$wizard_data_mode" in managed|custom) ;; *) fail "数据目录模式无效，请重新打开安装向导。" ;; esac
+fi
+if [ -n "${wizard_data_dir:-}" ]; then
+  case "$wizard_data_dir" in /*) ;; *) fail "自定义数据目录必须是绝对路径。" ;; esac
+  [ "$wizard_data_dir" != "/" ] || fail "自定义数据目录不能是根目录。"
+fi
+for port in "${wizard_api_port:-38000}" "${wizard_web_port:-38080}"; do
+  case "$port" in ''|*[!0-9]*) fail "服务端口必须是数字。" ;; esac
+  if [ "$port" -lt 1024 ] || [ "$port" -gt 65535 ]; then
+    fail "服务端口必须在 1024-65535 之间。"
+  fi
+  if ss -lntH 2>/dev/null | awk '{print $4}' | grep -Eq "(^|:)$port$"; then
+    fail "端口 $port 已被占用，请更换端口。"
+  fi
+done
+if [ "${COMPOSE_PROFILES:-${wizard_deploy_mode:-}}" = full ]; then
+  mem_kb="$(awk '/MemTotal/ {print $2}' /proc/meminfo)"
+  [ "${mem_kb:-0}" -ge 4194304 ] || fail "完整模式至少需要 4 GiB 内存，建议 4 核 8 GiB。"
+fi
+
+exit 0

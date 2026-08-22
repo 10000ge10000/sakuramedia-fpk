@@ -1,0 +1,16 @@
+{
+  ".url": {
+    "sakuramedia.Application": {
+      "title": "SakuraMedia",
+      "icon": "images/icon_{0}.png",
+      "type": "url",
+      "protocol": "http",
+      "port": "${wizard_web_port}",
+      "url": "/",
+      "allUsers": true,
+      "control": {
+        "accessPerm": "editable"
+      }
+    }
+  }
+}

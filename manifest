@@ -1,0 +1,17 @@
+appname=sakuramedia
+version=1.1.0
+display_name=SakuraMedia
+desc=SakuraMedia 飞牛 fnOS 第三方 Docker 安装包，支持轻量/完整部署和 qBittorrent、Jackett 自动发现。
+source=thirdparty
+platform=all
+maintainer=tinypinglite
+maintainer_url=https://github.com/tinypinglite/sakuramedia
+distributor=10000ge10000
+distributor_url=https://github.com/10000ge10000
+install_dep_apps=python312
+desktop_uidir=ui
+desktop_applaunchname=sakuramedia.Application
+ctl_stop=true
+checkport=false
+disable_authorization_path=false
+changelog=同步 SakuraMedia 官方后端 v0.4.21、前端 v0.4.13，适配 Torznab 通用索引器配置。

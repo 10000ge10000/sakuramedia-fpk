@@ -1,0 +1,5 @@
+# FPK 生命周期脚本在 fnOS 上执行，必须保持 LF；统一全仓库 LF 避免跨平台漂移
+* text=auto eol=lf
+*.png binary
+*.PNG binary
+*.fpk binary

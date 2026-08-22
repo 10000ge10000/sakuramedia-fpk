@@ -1,0 +1,23 @@
+{
+  "fpk_version": "1.0.2",
+  "built_against": "2026-07-19",
+  "upstream": {
+    "frontend": {
+      "tag": "v0.4.2",
+      "commit": "af28f2746e2facf5b8a06fc483294f7c04bbd606"
+    },
+    "backend": {
+      "tag": "v0.4.4",
+      "commit": "e52b407aaee242b70212d4f162ca57c4332c8efe"
+    }
+  },
+  "fnpack_version": "1.2.3",
+  "images": {
+    "backend": "tinyping/sakuramediabe:v0.4.4@sha256:421a3b769ae2ad0ce00484e8f13503c90beaf188766806b438f4a64c217bd53c",
+    "web": "tinyping/sakuramedia-web:v0.4.2@sha256:7411fccba4039c1ce0592ed679cc1d32d451f025f4b7b7d2611157f94576d498",
+    "joytag": "tinyping/joytag-infer:v0.0.4-cpu@sha256:9162b573a4b7aaa8a85836bb49ca709fc9f5fbd33dd33cea223222b21a704846",
+    "postgres": "postgres:16-alpine@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777",
+    "qdrant": "qdrant/qdrant:v1.12.4@sha256:241edb9d7778327516ef218f8c74e1bd61b5ea42cd4f193cb8d0896199705636"
+  },
+  "joytag_model_sha256": "8b9b2f12e2c656d9bbe0bf695cd4716d29e10a86a30bb95568c9890a23e9e46c"
+}

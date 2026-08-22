@@ -1,0 +1,111 @@
+services:
+  postgres:
+    image: postgres:16-alpine@sha256:57c72fd2a128e416c7fcc499958864df5301e940bca0a56f58fddf30ffc07777
+    container_name: sakuramedia-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: sakuramedia
+      POSTGRES_USER: sakuramedia
+      POSTGRES_PASSWORD_FILE: /run/sakuramedia-config/postgres-password
+      TZ: "${wizard_timezone:-Asia/Shanghai}"
+    entrypoint: ["/bin/sh", "/opt/sakuramedia-fnos/postgres-entrypoint.sh"]
+    volumes:
+      - type: bind
+        source: "${wizard_data_dir:-${TRIM_PKGVAR:?TRIM_PKGVAR 未设置}/sakuramedia-data}/postgres"
+        target: /var/lib/postgresql/data
+      - type: bind
+        source: "${wizard_data_dir:-${TRIM_PKGVAR:?TRIM_PKGVAR 未设置}/sakuramedia-data}/config"
+        target: /run/sakuramedia-config
+      - type: bind
+        source: "${TRIM_APPDEST:?TRIM_APPDEST 未设置}/docker/scripts/postgres-entrypoint.sh"
+        target: /opt/sakuramedia-fnos/postgres-entrypoint.sh
+        read_only: true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U sakuramedia -d sakuramedia"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+    networks:
+      - sakuramedia
+
+  sakuramedia:
+    image: tinyping/sakuramediabe:v0.4.21@sha256:3977291e9531d7c0debb2d647baf93d3bbe1a2279e28e1f90fa482bd622aa391
+    container_name: sakuramedia
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${wizard_api_port:-38000}:8000"
+    environment:
+      PUID: "${wizard_puid:-1000}"
+      PGID: "${wizard_pgid:-1000}"
+      TZ: "${wizard_timezone:-Asia/Shanghai}"
+      POSTGRES_HOST: postgres
+      POSTGRES_PORT: "5432"
+      POSTGRES_DB: sakuramedia
+      POSTGRES_USER: sakuramedia
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - type: bind
+        source: "${wizard_data_dir:-${TRIM_PKGVAR:?TRIM_PKGVAR 未设置}/sakuramedia-data}"
+        target: /data
+      - type: bind
+        source: "${wizard_media_parent:?媒体父目录未初始化}"
+        target: /mnt/media1
+    networks:
+      - sakuramedia
+
+  sakuramedia-web:
+    image: tinyping/sakuramedia-web:v0.4.13@sha256:22bd7b3a831eceb98b4a06a18f3f109bdcfe730883b6e582e97355f984f4b0d0
+    container_name: sakuramedia-web
+    restart: unless-stopped
+    depends_on:
+      - sakuramedia
+    ports:
+      - "${wizard_web_port:-38080}:80"
+    networks:
+      - sakuramedia
+
+  joytag-infer:
+    profiles: ["full"]
+    image: tinyping/joytag-infer:v0.0.4-cpu@sha256:9162b573a4b7aaa8a85836bb49ca709fc9f5fbd33dd33cea223222b21a704846
+    container_name: joytag-infer
+    restart: unless-stopped
+    environment:
+      JOYTAG_INFER_BACKEND: cpu
+      JOYTAG_INFER_MODEL_PATH: /data/lib/joytag/model_vit_768.onnx
+      JOYTAG_INFER_API_KEY: ""
+      TZ: "${wizard_timezone:-Asia/Shanghai}"
+    entrypoint: ["/bin/sh", "/opt/sakuramedia-fnos/joytag-entrypoint.sh"]
+    volumes:
+      - type: bind
+        source: "${wizard_data_dir:-${TRIM_PKGVAR:?TRIM_PKGVAR 未设置}/sakuramedia-data}/joytag"
+        target: /data/lib/joytag
+      - type: bind
+        source: "${TRIM_APPDEST:?TRIM_APPDEST 未设置}/docker/scripts/joytag-entrypoint.sh"
+        target: /opt/sakuramedia-fnos/joytag-entrypoint.sh
+        read_only: true
+    networks:
+      - sakuramedia
+
+  qdrant:
+    profiles: ["full"]
+    image: qdrant/qdrant:v1.12.4@sha256:241edb9d7778327516ef218f8c74e1bd61b5ea42cd4f193cb8d0896199705636
+    container_name: qdrant
+    restart: unless-stopped
+    environment:
+      QDRANT__SERVICE__HTTP_PORT: "6333"
+      QDRANT__LOG_LEVEL: INFO
+    volumes:
+      - type: bind
+        source: "${wizard_data_dir:-${TRIM_PKGVAR:?TRIM_PKGVAR 未设置}/sakuramedia-data}/image-search-index"
+        target: /qdrant/storage
+    networks:
+      - sakuramedia
+
+networks:
+  sakuramedia:
+    name: sakuramedia

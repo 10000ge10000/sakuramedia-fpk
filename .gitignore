@@ -1,0 +1,6 @@
+# 构建产物与缓存不入库
+dist/
+.build/
+__pycache__/
+*.pyc
+sakuramedia.fpk

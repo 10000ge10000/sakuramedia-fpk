@@ -1,0 +1,5 @@
+#!/bin/bash
+set -euo pipefail
+# shellcheck source=runtime.sh
+. "$(dirname "$0")/runtime.sh"
+run_lifecycle upgrade-callback

@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+# shellcheck source=runtime.sh
+. "$(dirname "$0")/runtime.sh"
+case "${1:-}" in
+  start) run_lifecycle start ;;
+  stop) run_lifecycle stop ;;
+  status) run_lifecycle status ;;
+  *) exit 1 ;;
+esac

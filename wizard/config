@@ -1,0 +1,34 @@
+[
+  {
+    "stepTitle": "重新配置 SakuraMedia",
+    "items": [
+      {
+        "type": "select",
+        "field": "wizard_config_action",
+        "label": "配置操作",
+        "initValue": "keep",
+        "options": [
+          {"label": "保留现有配置", "value": "keep"},
+          {"label": "重新检测，仅补充缺失配置", "value": "redetect"},
+          {"label": "重新检测并更新已选配置", "value": "redetect_update"}
+        ]
+      },
+      {"type": "radio", "field": "COMPOSE_PROFILES", "label": "部署模式", "initValue": "light", "options": [{"label": "轻量模式", "value": "light"}, {"label": "完整模式", "value": "full"}]},
+      {"type": "text", "field": "wizard_api_port", "label": "API 端口", "initValue": "38000"},
+      {"type": "text", "field": "wizard_web_port", "label": "Web 端口", "initValue": "38080"},
+      {"type": "text", "field": "wizard_media_parent", "label": "媒体父目录", "rules": [{"required": true, "message": "请输入媒体父目录"}]},
+      {"type": "text", "field": "wizard_puid", "label": "PUID（可选，默认 1000）"},
+      {"type": "text", "field": "wizard_pgid", "label": "PGID（可选，默认 1000）"},
+      {"type": "text", "field": "wizard_timezone", "label": "时区（可选，默认 Asia/Shanghai）"},
+      {"type": "text", "field": "wizard_qb_candidate_id", "label": "qBittorrent 候选 ID"},
+      {"type": "text", "field": "wizard_qb_url", "label": "qBittorrent 地址"},
+      {"type": "text", "field": "wizard_qb_username", "label": "qBittorrent 用户名"},
+      {"type": "password", "field": "wizard_qb_password", "label": "qBittorrent 密码（留空保持原值）"},
+      {"type": "text", "field": "wizard_qb_save_path", "label": "qBittorrent 保存路径"},
+      {"type": "text", "field": "wizard_qb_local_path", "label": "SakuraMedia 本地路径"},
+      {"type": "text", "field": "wizard_jackett_candidate_id", "label": "Jackett 候选 ID"},
+      {"type": "text", "field": "wizard_jackett_url", "label": "Jackett 地址"},
+      {"type": "password", "field": "wizard_jackett_api_key", "label": "Jackett API Key（留空保持原值）"}
+    ]
+  }
+]
