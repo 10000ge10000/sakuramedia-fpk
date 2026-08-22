@@ -25,7 +25,7 @@
       "version": "1.1.0",
       "author": "一万AI分享",
       "download_url": "https://github.com/10000ge10000/sakuramedia-fpk/releases/download/v1.1.0/sakuramedia-1.1.0.fpk",
-      "sha256": "015f2713e28a0e3b62393919c15095dc8d7d6808b3706c1a30ffae2e6f36c5e8",
+      "sha256": "766135c665393d3a3b53393eae6c1241d43ba398ec9e10942016a3ccf63bba4f",
       "size": 1,
       "run_as": "package",
       "install_type": "",
@@ -34,12 +34,12 @@
       "releases": {
         "1.1.0": {
           "changelog": "同步官方后端 v0.4.21、前端 v0.4.13；适配逐站 Torznab 索引器配置；导入前健康探测过滤。",
-          "updated_at": "2026-08-22T15:45:26+00:00",
+          "updated_at": "2026-08-22T15:45:51+00:00",
           "packages": {
             "all": {
               "download_url": "https://github.com/10000ge10000/sakuramedia-fpk/releases/download/v1.1.0/sakuramedia-1.1.0.fpk",
-              "sha256": "015f2713e28a0e3b62393919c15095dc8d7d6808b3706c1a30ffae2e6f36c5e8",
-              "size": 150988
+              "sha256": "766135c665393d3a3b53393eae6c1241d43ba398ec9e10942016a3ccf63bba4f",
+              "size": 150971
             }
           }
         }
