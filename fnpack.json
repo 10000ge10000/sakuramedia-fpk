@@ -17,7 +17,6 @@
         "影音娱乐"
       ],
       "icon_url": "https://raw.githubusercontent.com/10000ge10000/sakuramedia-fpk/main/ICON_256.PNG",
-      "readme_url": "https://github.com/10000ge10000/sakuramedia-fpk#readme",
       "bug_report_url": "https://github.com/10000ge10000/sakuramedia-fpk/issues",
       "maintainer": "tinypinglite",
       "maintainer_url": "https://github.com/tinypinglite/sakuramedia",
@@ -26,7 +25,7 @@
       "version": "1.1.0",
       "author": "一万AI分享",
       "download_url": "https://github.com/10000ge10000/sakuramedia-fpk/releases/download/v1.1.0/sakuramedia-1.1.0.fpk",
-      "sha256": "53011447df9c1e117addc1e6562e8782a3f99f616916e9251d3d709225932da6",
+      "sha256": "6b2d6193f59512a42f32e234bbd797bcc469f63a4b4b043730878fcfaa5ee847",
       "size": 1,
       "run_as": "package",
       "install_type": "",
@@ -35,12 +34,12 @@
       "releases": {
         "1.1.0": {
           "changelog": "同步官方后端 v0.4.21、前端 v0.4.13；适配逐站 Torznab 索引器配置；导入前健康探测过滤。",
-          "updated_at": "2026-08-22T15:24:40+00:00",
+          "updated_at": "2026-08-22T15:34:20+00:00",
           "packages": {
             "all": {
               "download_url": "https://github.com/10000ge10000/sakuramedia-fpk/releases/download/v1.1.0/sakuramedia-1.1.0.fpk",
-              "sha256": "53011447df9c1e117addc1e6562e8782a3f99f616916e9251d3d709225932da6",
-              "size": 150986
+              "sha256": "6b2d6193f59512a42f32e234bbd797bcc469f63a4b4b043730878fcfaa5ee847",
+              "size": 150968
             }
           }
         }
