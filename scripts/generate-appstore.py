@@ -73,7 +73,6 @@ def build_fnpack(repo: str, ver: str, tag_name: str, fpk_file: str, pkg_dir: str
                 'platform': ['all'],
                 'categories': ['影音娱乐'],
                 'icon_url': f'https://raw.githubusercontent.com/{repo}/main/{ICON_PATH}',
-                'readme_url': f'https://github.com/{repo}#readme',
                 'bug_report_url': f'https://github.com/{repo}/issues',
                 'maintainer': 'tinypinglite',
                 'maintainer_url': 'https://github.com/tinypinglite/sakuramedia',
