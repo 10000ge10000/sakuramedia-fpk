@@ -84,9 +84,9 @@ def build_fnpack(repo: str, ver: str, tag_name: str, fpk_file: str, pkg_dir: str
                 'author': '一万AI分享',
                 'download_url': download_url,
                 'sha256': fingerprint['sha256'],
-                # 0.0.7 的展示逻辑直接拼 "${size} MB"，顶层用 MB 取整；
+                # 0.0.7 的展示逻辑直接拼 "${size} MB"，顶层用 MB 取整（不足 1MB 按 1 计）；
                 # releases/packages 内保持 V2 规范的精确字节数
-                'size': round(fingerprint['size'] / 1048576),
+                'size': max(1, round(fingerprint['size'] / 1048576)),
                 'run_as': 'package',
                 'install_type': '',
                 'is_docker': True,
