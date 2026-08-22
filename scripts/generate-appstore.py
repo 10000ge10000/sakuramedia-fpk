@@ -69,7 +69,9 @@ def build_fnpack(repo: str, ver: str, tag_name: str, fpk_file: str, pkg_dir: str
                 'display_name': DISPLAY_NAME,
                 'desc': 'SakuraMedia 影片媒体库（飞牛 fnOS 第三方安装包）。'
                         '支持 qBittorrent/Jackett 自动发现、磁力搜索订阅下载、'
-                        '媒体库管理与刮削；轻量/完整两种部署模式，数据完整保留升级。',
+                        '媒体库管理与刮削；轻量/完整两种部署模式，数据完整保留升级。'
+                        '<br><b>首次登录：</b>登录页"服务器地址"填 <b>http://NAS的IP:38000</b>（注意是 38000 不是 38080），'
+                        '账号 yiwan，密码 yiwan123。',
                 'platform': ['all'],
                 'categories': ['影音娱乐'],
                 'icon_url': f'https://raw.githubusercontent.com/{repo}/main/{ICON_PATH}',
