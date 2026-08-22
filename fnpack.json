@@ -1,0 +1,50 @@
+{
+  "schema_version": "2",
+  "source_info": {
+    "name": "一万AI分享应用源",
+    "author": "一万AI分享",
+    "homepage": "https://space.bilibili.com/59438380",
+    "description": "一万AI分享维护的飞牛私有云 NAS 第三方应用源（x86 与 ARM64 双架构）"
+  },
+  "apps": {
+    "sakuramedia": {
+      "display_name": "SakuraMedia",
+      "desc": "SakuraMedia 影片媒体库（飞牛 fnOS 第三方安装包）。支持 qBittorrent/Jackett 自动发现、磁力搜索订阅下载、媒体库管理与刮削；轻量/完整两种部署模式，数据完整保留升级。",
+      "platform": [
+        "all"
+      ],
+      "categories": [
+        "影音娱乐"
+      ],
+      "icon_url": "https://raw.githubusercontent.com/10000ge10000/sakuramedia-fpk/main/ICON_256.PNG",
+      "readme_url": "https://github.com/10000ge10000/sakuramedia-fpk#readme",
+      "bug_report_url": "https://github.com/10000ge10000/sakuramedia-fpk/issues",
+      "maintainer": "tinypinglite",
+      "maintainer_url": "https://github.com/tinypinglite/sakuramedia",
+      "distributor": "一万AI分享",
+      "distributor_url": "https://space.bilibili.com/59438380",
+      "version": "1.1.0",
+      "author": "一万AI分享",
+      "download_url": "https://github.com/10000ge10000/sakuramedia-fpk/releases/download/v1.1.0/sakuramedia-1.1.0.fpk",
+      "sha256": "4a64cd24a2d14660ea88450267f1da96dbbc2153a9eaccc6425890fac623b6b5",
+      "size": 0,
+      "run_as": "package",
+      "install_type": "",
+      "is_docker": true,
+      "service_port": "38080",
+      "releases": {
+        "1.1.0": {
+          "changelog": "同步官方后端 v0.4.21、前端 v0.4.13；适配逐站 Torznab 索引器配置；导入前健康探测过滤。",
+          "updated_at": "2026-08-22T15:19:01+00:00",
+          "packages": {
+            "all": {
+              "download_url": "https://github.com/10000ge10000/sakuramedia-fpk/releases/download/v1.1.0/sakuramedia-1.1.0.fpk",
+              "sha256": "4a64cd24a2d14660ea88450267f1da96dbbc2153a9eaccc6425890fac623b6b5",
+              "size": 150945
+            }
+          }
+        }
+      }
+    }
+  }
+}
